@@ -5,9 +5,16 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
+	<f:metadata>
+		<f:viewAction action="#{editeurController.initView()}" />
+	</f:metadata>
 	<ui:composition template="/resources/templates/skin.xhtml" />
 </h:head>
 <body>
-
+	<div class="flex-container">
+		<div id="leftMenu"></div>
+		<div id="MainMenu"></div>
+		<div id="RightMenu"></div>
+	</div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package pages;
+package page;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -9,7 +9,7 @@ public class EditeurPage implements PageDefinition {
 
 	@Override
 	public String getSimpleUrl() {
-		return "view/editeur";
+		return "/magicOnline/view/editeur.xhtml";
 	}
 
 }

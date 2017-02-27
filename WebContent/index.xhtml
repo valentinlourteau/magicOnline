@@ -5,7 +5,9 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <head>
-<f:viewAction>#{indexController.initView()}</f:viewAction>
+<f:metadata>
+		<f:viewAction action="#{indexController.initView()}" />
+	</f:metadata>
 <ui:composition template="/resources/templates/skin.xhtml" />
 </head>
 

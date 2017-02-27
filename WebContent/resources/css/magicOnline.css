@@ -1,3 +1,32 @@
-.flex-container {
+.flexContainer {
+	height:inherit;
 	display:flex;
+	align-items:center;
+}
+.flexContainer div {
+	height: inherit;
+}
+#navigationMenu {
+	height:64px;
+	background-color:#FF9800;
+}
+.menuItem {
+	color:#FFF3E0;
+	font-size:x-large;
+	padding:10px;
+	box-sizing: border-box;
+	text-decoration: none;
+}
+
+.leftMenu {
+	display:inline-block;
+	width: calc(100 * 2 / 12);
+}
+.rightMenu {
+	display:inline-block;
+	width: calc(100 * 2 / 12);	
+}
+.mainMenu {
+	display:inline-block;
+	width: calc(100 * 8 / 12);	
 }

@@ -7,10 +7,10 @@ import javax.inject.Named;
 
 @Named
 @ViewScoped
-public class IndexController implements Serializable {
-	
-	public void initView() {
-		System.out.println("je passe");
-	}
+public class EditeurController implements Serializable {
 
+	public void initView() {
+		System.out.println("je suis dans l'editeur");
+	}
+	
 }
