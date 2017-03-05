@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ public class Variation implements Serializable {
 	@Id
 	@GeneratedValue(generator = "VARIATION_UID", strategy= GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "VARIATION_UID")
+	@Column(name = "VARIATION_ID")
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

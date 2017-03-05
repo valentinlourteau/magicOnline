@@ -44,7 +44,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor </processor>
 							<options>
 								<querydsl.entityAccessors>true</querydsl.entityAccessors>
 							</options>
@@ -55,6 +55,13 @@
 		</plugins>
 	</build>
 	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.jboss.modules/jboss-modules -->
+		<dependency>
+			<groupId>org.jboss.modules</groupId>
+			<artifactId>jboss-modules</artifactId>
+			<version>1.5.2.Final</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
 		<dependency>

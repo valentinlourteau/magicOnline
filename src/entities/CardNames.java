@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,11 @@ public class CardNames implements Serializable {
 	@Id
 	@GeneratedValue(generator = "CARD_NAMES_UID", strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "CARD_NAMES_UID")
+	@Column(name = "ID")
 	private Long id;
+	
+	@Column(name = "LIBELLE")
+	private String libelle;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CARD_ID")
@@ -31,6 +36,22 @@ public class CardNames implements Serializable {
 
 	public void setCard(Card card) {
 		this.card = card;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getLibelle() {
+		return libelle;
+	}
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 
 }

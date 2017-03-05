@@ -3,6 +3,7 @@ package resources;
 import java.util.List;
 
 import entities.Card;
+import mtg.objects.MtgCard;
 
 public class CardAPI extends MTGAPI {
 	
@@ -11,16 +12,16 @@ public class CardAPI extends MTGAPI {
 	/**
 	 * Returns a {@link Card} based on the given multiverseid
 	 */
-	public static Card getCard(int multiverseId) {
+	public static MtgCard getCard(int multiverseId) {
 		String path = String.format("%s/%s/", RESOURCE_PATH, multiverseId);
-		return get(path, "card", Card.class);
+		return get(path, "card", MtgCard.class);
 	}
 
 	/**
 	 * Returns all the available {@link Card}s as a list.
 	 */
-	public static List<Card> getAllCards() {
-		return getList(RESOURCE_PATH, "cards", Card.class);
+	public static List<MtgCard> getAllCards() {
+		return getList(RESOURCE_PATH, "cards", MtgCard.class);
 	}
 
 	/**
@@ -35,9 +36,9 @@ public class CardAPI extends MTGAPI {
 		return cardTypes;
 	}
 
-	public static List<Card> getAllCards(String parameters) {
+	public static List<MtgCard> getAllCards(String parameters) {
 		String path = RESOURCE_PATH + parameters;
-		return getList(path, "cards", Card.class);
+		return getList(path, "cards", MtgCard.class);
 	}
 
 }

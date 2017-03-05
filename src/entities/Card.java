@@ -2,7 +2,9 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,23 +15,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
 /**
- * This file is part of mtgsdk.
- * https://github.com/MagicTheGathering/mtg-sdk-java
+ * Le format de cartes converti en entité
+ * @author oktamèr
  *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT-license
- *
- * Created by thechucklingatom on 2/16/2016.
- *
- * Card class that is created from the JSON set representation.
- *
- * @author thechucklingatom
  */
 @Entity
 @Table(name = "CARD")
@@ -38,6 +34,7 @@ public class Card implements Serializable {
 	@Id
 	@GeneratedValue(generator = "CARD_UID", strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "CARD_UID")
+	@Column(name = "CARD_ID")
 	private Long myId;
 	
 	@Column(name = "MAGIC_ID")
@@ -50,7 +47,7 @@ public class Card implements Serializable {
 	private String name;
 	
 	@OneToMany(mappedBy = "card", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-	private List<CardNames> names;
+	private Set<CardNames> names = new HashSet<>();
 	
 	@Column(name = "MANA_COST")
 	private String manaCost;
@@ -58,25 +55,27 @@ public class Card implements Serializable {
 	@Column(name = "CMC")
 	private double cmc;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "CARD_COLOR", joinColumns=@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID"),
 			inverseJoinColumns=@JoinColumn(name = "COLOR_ID", referencedColumnName = "COLOR_ID"))
-	private List<Color> colors;
+	private Set<Color> colors = new HashSet<>();
 	
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "CARD_COLOR_IDENTITY", joinColumns=@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID"),
 			inverseJoinColumns=@JoinColumn(name = "COLOR_IDENTITY_ID", referencedColumnName = "COLOR_IDENTITY_ID"))
-	private List<ColorIdentity> colorIdentity;
+	private Set<ColorIdentity> colorIdentity = new HashSet<>();
 	
 	@Column(name = "TYPE")
 	private Type type;
 	
 	@OneToMany(mappedBy = "card")
-	private List<SuperType> supertypes;
+	private Set<SuperType> supertypes = new HashSet<>();
 	
 	@OneToMany(mappedBy = "card")
-	List<Type> types;
+	private Set<Type> types = new HashSet<>();
 	
 	@OneToMany(mappedBy = "card")
-	private List<SubType> subtypes;
+	private Set<SubType> subtypes = new HashSet<>();
 	
 	@Column(name = "RARITY")
 	private String rarity;
@@ -106,7 +105,7 @@ public class Card implements Serializable {
 	private int multiverseid = -1;
 	
 	@OneToMany(mappedBy = "card")
-	private List<Variation> variations;
+	private Set<Variation> variations = new HashSet<>();
 	
 	@Column(name = "IMAGE_NAME")
 	private String imageName;
@@ -213,36 +212,60 @@ public class Card implements Serializable {
 		this.cmc = cmc;
 	}
 
-	public List<Color> getColors() {
+	public Set<CardNames> getNames() {
+		return names;
+	}
+
+	public void setNames(Set<CardNames> names) {
+		this.names = names;
+	}
+
+	public Set<Color> getColors() {
 		return colors;
 	}
 
-	public void setColors(List<Color> colors) {
+	public void setColors(Set<Color> colors) {
 		this.colors = colors;
 	}
 
-	public List<ColorIdentity> getColorIdentity() {
+	public Set<ColorIdentity> getColorIdentity() {
 		return colorIdentity;
 	}
 
-	public void setColorIdentity(List<ColorIdentity> colorIdentity) {
+	public void setColorIdentity(Set<ColorIdentity> colorIdentity) {
 		this.colorIdentity = colorIdentity;
 	}
 
-	public List<SuperType> getSupertypes() {
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
+
+	public Set<SuperType> getSupertypes() {
 		return supertypes;
 	}
 
-	public void setSupertypes(List<SuperType> supertypes) {
+	public void setSupertypes(Set<SuperType> supertypes) {
 		this.supertypes = supertypes;
 	}
 
-	public List<Type> getTypes() {
+	public Set<Type> getTypes() {
 		return types;
 	}
 
-	public void setTypes(List<Type> types) {
+	public void setTypes(Set<Type> types) {
 		this.types = types;
+	}
+
+	public Set<SubType> getSubtypes() {
+		return subtypes;
+	}
+
+	public void setSubtypes(Set<SubType> subtypes) {
+		this.subtypes = subtypes;
 	}
 
 	public String getRarity() {
@@ -315,6 +338,14 @@ public class Card implements Serializable {
 
 	public void setMultiverseid(int multiverseid) {
 		this.multiverseid = multiverseid;
+	}
+
+	public Set<Variation> getVariations() {
+		return variations;
+	}
+
+	public void setVariations(Set<Variation> variations) {
+		this.variations = variations;
 	}
 
 	public String getImageName() {
@@ -397,5 +428,6 @@ public class Card implements Serializable {
 		this.imageUrl = imageUrl;
 	}
 
+	
 	
 }
