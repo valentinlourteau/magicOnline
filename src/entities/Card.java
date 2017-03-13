@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -137,6 +138,10 @@ public class Card implements Serializable {
 	
 	@Column(name = "IMAGE_URL")
 	private String imageUrl;
+	
+	@Lob
+	@Column(name = "IMAGE")
+	private byte[] image;
 
 	/**
 	 * dirty compare to in order to start testing. Just comparing the MultiverseId
@@ -426,6 +431,14 @@ public class Card implements Serializable {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	

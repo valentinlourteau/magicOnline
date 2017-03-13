@@ -3,8 +3,6 @@ package resources;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -38,7 +36,7 @@ public class MagicCorporationLoader {
 
 	private List<MtgCard> loadCards() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("?set=RAV&page=5&pageSize=100");
+		builder.append("?set=RAV");
 		return magicCorporationService.getAllCardsWithParameters(builder.toString());
 	}
 

@@ -1,7 +1,13 @@
 package service;
 
-import java.text.DateFormat;
-import java.text.spi.DateFormatProvider;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +15,7 @@ import java.util.Set;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.swing.text.DateFormatter;
+import javax.imageio.ImageIO;
 
 import entities.Card;
 import mtg.objects.MtgCard;
@@ -45,6 +51,12 @@ public class MagicCorporationServiceImpl implements MagicCorporationService {
 			card.setId(item.getId());
 			card.setImageName(item.getImageName());
 			card.setImageUrl(item.getImageUrl());
+			try {
+				card.setImage(getImageFromUrl(card.getImageUrl()));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			card.setLayout(item.getLayout());
 			card.setLife(item.getLife());
 			card.setLoyalty(item.getLoyalty());
@@ -73,6 +85,24 @@ public class MagicCorporationServiceImpl implements MagicCorporationService {
 		}
 		System.out.println("fin de la conversion des cartes");
 		return cards;
+	}
+	
+	private byte[] getImageFromUrl(String stringUrl) throws IOException {
+		URL url = new URL(stringUrl);
+		InputStream inputStream      = url.openStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte [] buffer               = new byte[ 1024 ];
+
+        int n = 0;
+        while (-1 != (n = inputStream.read(buffer))) {
+           output.write(buffer, 0, n);
+        }
+        inputStream.close();
+
+        // Here's the content of the image...
+        byte [] data = output.toByteArray();
+		return data;
+		
 	}
 
 }

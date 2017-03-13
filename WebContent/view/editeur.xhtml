@@ -2,19 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
 
 <h:head>
 	<f:metadata>
 		<f:viewAction action="#{editeurController.initView()}" />
 	</f:metadata>
-	<ui:composition template="/resources/templates/skin.xhtml" />
 </h:head>
-<body>
+
+	<ui:composition template="/resources/templates/skin.xhtml">
+	<ui:define name="content">
 	<div class="flex-container">
 		<div id="leftMenu"></div>
-		<div id="MainMenu"></div>
+		<div id="MainMenu" class="flexContainer flex-wrap">
+			<ui:repeat var="card" value="#{editeurController.cards}" >
+				<div class="card">
+					<h:graphicImage value="#{card.imageUrl}" />
+				</div>
+			</ui:repeat>
+		</div>
 		<div id="RightMenu"></div>
 	</div>
-</body>
+	</ui:define>
+	</ui:composition>
 </html>
