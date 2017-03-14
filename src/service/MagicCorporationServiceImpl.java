@@ -51,12 +51,12 @@ public class MagicCorporationServiceImpl implements MagicCorporationService {
 			card.setId(item.getId());
 			card.setImageName(item.getImageName());
 			card.setImageUrl(item.getImageUrl());
-			try {
+			/*try {
 				card.setImage(getImageFromUrl(card.getImageUrl()));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			card.setLayout(item.getLayout());
 			card.setLife(item.getLife());
 			card.setLoyalty(item.getLoyalty());

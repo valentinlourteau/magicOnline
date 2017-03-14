@@ -34,4 +34,12 @@ public class SuperType implements Serializable {
 	public void setCard(Card card) {
 		this.card = card;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

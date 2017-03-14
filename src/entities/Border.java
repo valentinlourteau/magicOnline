@@ -24,9 +24,13 @@ public class Border implements Serializable {
 	@SequenceGenerator(name = "BORDER_UID")
 	@Column(name = "BORDER_ID")
 	private Long id;
-	
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CARD_ID")
-	private List<Card> card;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 }

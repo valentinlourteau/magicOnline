@@ -3,8 +3,13 @@ package dao;
 import java.util.List;
 import java.util.Set;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+
 import entities.Card;
 
+@Stateless
+@LocalBean
 public class CardDaoImpl extends GenericJpaDaoImpl<Card> implements CardDao {
 
 	@Override
@@ -22,4 +27,13 @@ public class CardDaoImpl extends GenericJpaDaoImpl<Card> implements CardDao {
 		cards.forEach(card -> persist(card));
 	}
 
+	@Override
+	public long countAll() {
+		return queryFactory().selectFrom(CARD).fetchCount();
+	}
+
+	@Override
+	public void removeAll() {
+		queryFactory().delete(CARD).execute();
+	}
 }

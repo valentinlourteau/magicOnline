@@ -1,3 +1,6 @@
+body {
+    background-color: #fafafa;
+}
 .flexContainer {
 	height:inherit;
 	display:flex;
@@ -10,11 +13,15 @@
 	height: inherit;
 }
 #navigationMenu {
+    position:fixed;
+    top:0;
+    right:0;
+    left:0;
 	height:64px;
-	background-color:#FF9800;
+	background-color:#9e9e9e;
 }
 .menuItem {
-	color:#FFF3E0;
+	color:white;
 	font-size:x-large;
 	padding:10px;
 	box-sizing: border-box;
@@ -22,21 +29,38 @@
 }
 
 .leftMenu {
-	display:inline-block;
-	width: calc(100 * 2 / 12);
+    box-sizing:border-box;
+    width:15%;
+	position:fixed;
+	left:0;
+	top:80px;
+	padding: 20px;
 }
 .rightMenu {
-	display:inline-block;
-	width: calc(100 * 2 / 12);	
+    box-sizing:border-box;
+    width:15%;
+	position:fixed;
+	right:0;
+	top:80px;
+	padding: 20px;
 }
 .mainMenu {
-	display:inline-block;
-	width: calc(100 * 8 / 12);	
+    box-sizing:border-box;
+    padding:20px;
+	width:70%;
+	margin: 64px auto;
+	justify-content: space-around;
 }
 .card {
-    width: 200px;
-    height: auto;
-    max-width: 200px;
-    max-height: auto;
-    padding: 15px;
+    width:22%;
+    max-width:250px;
+    margin:10px;
+    transition: box-shadow .25s, transform .30s;
+}
+.card:hover {
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    transform: scale(1.1);
+}
+.panel {
+    background-color: white;
 }

@@ -4,7 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:o="http://omnifaces.org/ui"
-	xmlns:of="http://omnifaces.org/functions">
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<f:metadata>
@@ -14,17 +15,36 @@
 
 	<ui:composition template="/resources/templates/skin.xhtml">
 	<ui:define name="content">
-	<div class="flex-container">
-		<div id="leftMenu"></div>
-		<div id="MainMenu" class="flexContainer flex-wrap">
+		<div class="leftMenu">
+			<div class="panel">
+			Filtres
+			</div>
+		</div>
+		<div class="mainMenu flexContainer flex-wrap">
 			<ui:repeat var="card" value="#{editeurController.cards}" >
-				<div class="card">
-					<h:graphicImage value="#{card.imageUrl}" />
-				</div>
+					<h:graphicImage styleClass="card" value="#{card.imageUrl}">
+						<p:ajax event="click" listener="#{editeurController.onAddCardToSelectedDeck(card)}" update=":form:rightMenu"></p:ajax>
+					</h:graphicImage>
 			</ui:repeat>
 		</div>
-		<div id="RightMenu"></div>
-	</div>
+		<div id="rightMenu" class="rightMenu">
+			<h:panelGroup id="rightMenu" styleClass="panel">
+				<h:outputText value="Liste des decks" />
+				<p:accordionPanel value="#{editeurController.decks}" var="deck">
+					<p:ajax event="tabChange" listener="#{editeurController.onDeckChange}" />
+					<p:tab title="#{deck.name}">
+					<f:attribute name="deckId" value="#{deck.id}"/>
+						<ui:repeat var="card" value="#{deck.cards}">
+							<h:panelGroup>
+								<h:outputText style="display:block;" value="#{card.name}" />
+							</h:panelGroup>
+						</ui:repeat>
+					</p:tab>
+				</p:accordionPanel>
+				<p:commandButton actionListener="#{editeurController.onAddNewDeck()}" value="Ajouter un deck" 
+				process="@this" update="form:rightMenu" />	
+			</h:panelGroup>
+		</div>
 	</ui:define>
 	</ui:composition>
 </html>

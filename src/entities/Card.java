@@ -81,7 +81,7 @@ public class Card implements Serializable {
 	@Column(name = "RARITY")
 	private String rarity;
 	
-	@Column(name = "TEXT")
+	@Column(name = "TEXT", length = 600)
 	private String text;
 	
 	@Column(name = "FLAVOR")
@@ -115,7 +115,7 @@ public class Card implements Serializable {
 	private String watermark;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BORDER")
+	@JoinColumn(name = "BORDER", nullable = true)
 	private Border border;
 	
 	@Column(name = "TIMESHIFTED")
