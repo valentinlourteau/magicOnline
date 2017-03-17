@@ -3,7 +3,6 @@ package entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -56,12 +55,12 @@ public class Card implements Serializable {
 	@Column(name = "CMC")
 	private double cmc;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany()
 	@JoinTable(name = "CARD_COLOR", joinColumns=@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID"),
 			inverseJoinColumns=@JoinColumn(name = "COLOR_ID", referencedColumnName = "COLOR_ID"))
 	private Set<Color> colors = new HashSet<>();
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany()
 	@JoinTable(name = "CARD_COLOR_IDENTITY", joinColumns=@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID"),
 			inverseJoinColumns=@JoinColumn(name = "COLOR_IDENTITY_ID", referencedColumnName = "COLOR_IDENTITY_ID"))
 	private Set<ColorIdentity> colorIdentity = new HashSet<>();
@@ -69,10 +68,14 @@ public class Card implements Serializable {
 	@Column(name = "TYPE")
 	private Type type;
 	
-	@OneToMany(mappedBy = "card")
+	@ManyToMany()
+	@JoinTable(name = "CARD_SUPERTYPE", joinColumns=@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID"),
+			inverseJoinColumns=@JoinColumn(name = "SUPERTYPE_ID", referencedColumnName = "SUPERTYPE_ID"))
 	private Set<SuperType> supertypes = new HashSet<>();
 	
-	@OneToMany(mappedBy = "card")
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "CARD_TYPE", joinColumns=@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID"),
+			inverseJoinColumns=@JoinColumn(name = "TYPE_ID", referencedColumnName = "TYPE_ID"))
 	private Set<Type> types = new HashSet<>();
 	
 	@OneToMany(mappedBy = "card")
@@ -114,7 +117,7 @@ public class Card implements Serializable {
 	@Column(name = "WATERMARK")
 	private String watermark;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "BORDER", nullable = true)
 	private Border border;
 	
@@ -439,6 +442,13 @@ public class Card implements Serializable {
 
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	public Integer getLimit() {
+		if (this.types.stream().anyMatch(type -> type.getLibelle().equals("Land")))
+			return 60;
+		else 
+			return 4;
 	}
 
 	

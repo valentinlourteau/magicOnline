@@ -20,7 +20,7 @@ public class SuperType implements Serializable {
 	@Id
 	@GeneratedValue(generator = "SUPER_TYPE_UID", strategy= GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "SUPER_TYPE_UID")
-	@Column(name = "SUPER_TYPE_ID")
+	@Column(name = "SUPERTYPE_ID")
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

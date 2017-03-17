@@ -1,6 +1,7 @@
-package game.socket;
+package game;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
@@ -11,13 +12,23 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
+import entities.Card;
+import entities.Deck;
+
 @ClientEndpoint
-public class ClientEndPoint {
+public class Player {
 	
-    Session userSession = null;
+	private Session session;
+	
+	private String name;
+	private int lifePoints;
+	private List<Card> cardsInHand;
+	private Deck deck;
+	
     private MessageHandler messageHandler;
  
-    public ClientEndPoint(URI endpointURI) {
+    public Player(URI endpointURI) {
+    	lifePoints = 20;
         try {
             WebSocketContainer container = ContainerProvider
                     .getWebSocketContainer();
@@ -36,7 +47,7 @@ public class ClientEndPoint {
     @OnOpen
     public void onOpen(Session userSession) {
 		System.out.println("Event @OnOpen du clientEndPoint");
-        this.userSession = userSession;
+        this.session = userSession;
     }
  
     /**
@@ -50,7 +61,7 @@ public class ClientEndPoint {
     @OnClose
     public void onClose(Session userSession, CloseReason reason) {
 		System.out.println("Event @OnClose du clientEndPoint");
-        this.userSession = null;
+        this.session = null;
     }
  
     /**
@@ -83,7 +94,7 @@ public class ClientEndPoint {
      * @param message
      */
     public void sendMessage(String message) {
-        this.userSession.getAsyncRemote().sendText(message);
+        this.session.getAsyncRemote().sendText(message);
     }
  
     /**
@@ -94,4 +105,45 @@ public class ClientEndPoint {
     public static interface MessageHandler {
         public void handleMessage(String message);
     }
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getLifePoints() {
+		return lifePoints;
+	}
+
+	public void setLifePoints(int lifePoints) {
+		this.lifePoints = lifePoints;
+	}
+
+	public List<Card> getCardsInHand() {
+		return cardsInHand;
+	}
+
+	public void setCardsInHand(List<Card> cardsInHand) {
+		this.cardsInHand = cardsInHand;
+	}
+
+	public Deck getDeck() {
+		return deck;
+	}
+
+	public void setDeck(Deck deck) {
+		this.deck = deck;
+	}
+
 }

@@ -32,7 +32,7 @@ public class MagicCorporationLoader {
 	void init() {
 		List<MtgCard> mtgCards = loadCards();
 		long amountOfCardsInDatabase = cardService.countAll();
-		if (mtgCards.size() != (int) amountOfCardsInDatabase) {
+		if (mtgCards.size() != (int) amountOfCardsInDatabase && mtgCards.size() > amountOfCardsInDatabase) {
 			cardService.removeAll();
 			System.out.println("je commence le traitement");
 			allCards = convertMtgCardsToCards(mtgCards);

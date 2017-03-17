@@ -2,7 +2,9 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "DECK")
@@ -38,8 +41,14 @@ public class Deck implements Serializable {
 	
 	@Column(name = "NAME")
 	private String name;
+	
+	@Transient
+	private Map<Card, Integer> cardMap = new HashMap<>();
+	
+	@Transient
+	private int cardsSize;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -73,6 +82,22 @@ public class Deck implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public int getCardsSize() {
+		return cardMap.values().stream().mapToInt(Integer::intValue).sum();
+	}
+
+	public void setCardsSize(int cardsSize) {
+		this.cardsSize = cardsSize;
+	}
+
+	public Map<Card, Integer> getCardMap() {
+		return cardMap;
+	}
+
+	public void setCardMap(Map<Card, Integer> cardMap) {
+		this.cardMap = cardMap;
 	}
 
 }

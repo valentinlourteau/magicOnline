@@ -18,7 +18,9 @@ public class DeckDaoImpl extends GenericJpaDaoImpl<Deck> implements DeckDao {
 
 	@Override
 	public List<Deck> findAll() {
-		return queryFactory().selectFrom(DECK).fetch();
+		return queryFactory().selectFrom(DECK)
+				.leftJoin(DECK.cards, CARD).fetchJoin()
+				.fetch();
 	}
 
 }

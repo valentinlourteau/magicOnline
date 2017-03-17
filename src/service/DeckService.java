@@ -13,4 +13,6 @@ public interface DeckService {
 	
 	public void persist(Deck deck);
 
+	public void save(Deck deck);
+
 }

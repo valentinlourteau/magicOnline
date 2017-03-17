@@ -17,7 +17,9 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.imageio.ImageIO;
 
+import combo.provider.TypeProvider;
 import entities.Card;
+import entities.Type;
 import mtg.objects.MtgCard;
 import resources.CardAPI;
 
@@ -78,7 +80,7 @@ public class MagicCorporationServiceImpl implements MagicCorporationService {
 			card.setText(item.getText());
 			card.setToughness(item.getToughness());
 //			card.setType(new Type(item.getType()));
-//			card.setTypes(types);
+			card.setTypes(TypeProvider.getItems(item.getTypes()));
 //			card.setVariations(variations);
 			card.setWatermark(item.getWatermark());
 			cards.add(card);

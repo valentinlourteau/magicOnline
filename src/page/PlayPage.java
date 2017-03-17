@@ -5,11 +5,11 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
-public class EditeurPage extends PageDefinition {
+public class PlayPage extends PageDefinition {
 
 	@Override
 	public String getPageName() {
-		return "editeur";
+		return "play";
 	}
 
 }

@@ -10,7 +10,6 @@ import javax.inject.Named;
 public class IndexController implements Serializable {
 	
 	public void initView() {
-		System.out.println("je passe");
 	}
 
 }

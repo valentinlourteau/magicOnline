@@ -1,6 +1,10 @@
 body {
     background-color: #fafafa;
 }
+.body {
+    margin-top:64px;
+    padding:18px;
+}
 .flexContainer {
 	height:inherit;
 	display:flex;
