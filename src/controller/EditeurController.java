@@ -14,16 +14,12 @@ import org.primefaces.event.TabChangeEvent;
 import entities.Card;
 import entities.Deck;
 import resources.MagicCorporationLoader;
-import service.ClientProviderService;
 import service.DeckService;
 import utils.CardUtils;
 
 @Named
 @ViewScoped
 public class EditeurController implements Serializable {
-
-	@Inject
-	ClientProviderService clientProviderService;
 
 	@Inject
 	MagicCorporationLoader magicCorporationLoader;

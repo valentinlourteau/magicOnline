@@ -141,10 +141,6 @@ public class Card implements Serializable {
 	
 	@Column(name = "IMAGE_URL")
 	private String imageUrl;
-	
-	@Lob
-	@Column(name = "IMAGE")
-	private byte[] image;
 
 	/**
 	 * dirty compare to in order to start testing. Just comparing the MultiverseId
@@ -434,14 +430,6 @@ public class Card implements Serializable {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
 	}
 
 	public Integer getLimit() {

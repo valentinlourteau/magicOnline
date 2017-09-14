@@ -3,6 +3,7 @@ package service;
 import java.util.Map;
 
 import javax.ejb.Local;
+import javax.faces.context.FacesContext;
 import javax.websocket.Session;
 
 import game.Player;

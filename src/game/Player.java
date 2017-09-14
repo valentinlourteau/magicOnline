@@ -3,6 +3,8 @@ package game;
 import java.net.URI;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
@@ -12,6 +14,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
+import org.omnifaces.util.Ajax;
+
+import controller.PlayController;
 import entities.Card;
 import entities.Deck;
 
@@ -24,11 +29,11 @@ public class Player {
 	private int lifePoints;
 	private List<Card> cardsInHand;
 	private Deck deck;
+	private String messageFromOpponent;
 	
     private MessageHandler messageHandler;
  
     public Player(URI endpointURI) {
-    	lifePoints = 20;
         try {
             WebSocketContainer container = ContainerProvider
                     .getWebSocketContainer();
@@ -74,6 +79,7 @@ public class Player {
     @OnMessage
     public void onMessage(String message) {
 		System.out.println("Event @OnMessage du clientEndPoint, message reçu : " + message);
+		messageFromOpponent = message;
         if (this.messageHandler != null)
             this.messageHandler.handleMessage(message);
     }
@@ -146,4 +152,12 @@ public class Player {
 		this.deck = deck;
 	}
 
+	public String getMessageFromOpponent() {
+		return messageFromOpponent;
+	}
+
+	public void setMessageFromOpponent(String messageFromOpponent) {
+		this.messageFromOpponent = messageFromOpponent;
+	}
+	
 }

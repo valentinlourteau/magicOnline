@@ -19,6 +19,7 @@ public class ChannelProvider {
 			listURI.put(game, user);
 		} else {
 			game = listURI.keySet().stream().findAny().get().toString();
+			listURI.remove(game);
 		}
 		String toReturn = "ws://localhost:8080/magicOnline/games/" + game + '/' + user;
 		System.out.println(toReturn);

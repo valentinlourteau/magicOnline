@@ -1,22 +1,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <f:metadata>
-        <f:viewAction action="#{playController.initView()}" />
-    </f:metadata>
+	<f:metadata>
+		<f:viewAction action="#{playController.initView()}" />
+	</f:metadata>
 </h:head>
 
 
 <ui:composition template="/resources/templates/skin.xhtml">
-    <ui:define name="content">
-        <div class="body"><h:panelGroup id="playMenu"
-                rendered="#{empty playController.client}">
-                <p:commandButton value="Jouer !" actionListener="#{playController.onGetClient()}"
-                    process="@this"></p:commandButton>
-            </h:panelGroup> <h:panelGroup id="game" rendered="#{not empty playController.client}">Je suis en game</h:panelGroup></div>
-    </ui:define>
+	<ui:define name="content">
+		<div class="body">
+			<h:panelGroup id="playMenu" rendered="#{empty playController.player}">
+				<p:commandButton value="Jouer !"
+					actionListener="#{playController.onGetPlayer()}" process="@this"
+					update="@form"></p:commandButton>
+			</h:panelGroup>
+			<h:panelGroup id="game" rendered="#{not empty playController.player}"><h:outputText value="Je suis en game" />
+			<p:commandButton value="Envoyer un message à votre adversaire" actionListener="#{playController.onSendMessageToOpponent()}" process="@this"></p:commandButton>
+			<h:outputLabel value="Message de votre adversaire : " />
+			<h:outputText rendered="#{not empty playController.player.messageFromOpponent}" value="#{playController.player.messageFromOpponent}" />
+			</h:panelGroup>
+		</div>
+		<p:poll autoStart="true" update="@form" interval="3" process="@this"></p:poll>
+	</ui:define>
 </ui:composition>
 </html>

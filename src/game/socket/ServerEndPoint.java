@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -16,11 +17,9 @@ import javax.websocket.server.ServerEndpoint;
 
 import service.GameService;
 
+@Singleton
 @ServerEndpoint(value = "/games/{gameId}/{playerId}")
 public class ServerEndPoint {
-
-	@Inject
-	private GameService gameService;
 
 	/**
 	 * Key = GAMEID Value = MAP de <PLAYERID, SESSION>
@@ -32,26 +31,23 @@ public class ServerEndPoint {
 			throws IOException {
 		System.out.println("Event @OnOpen du serverEndPoint");
 		gamePlayerMap.putIfAbsent(game, new HashMap<>());
-		gamePlayerMap.get(game).put(game, session);
+		gamePlayerMap.get(game).put(player, session);
 		if (gamePlayerMap.get(game).values().size() == 2)
-			System.out.println("Deux players connect�s");
-
-		session.getBasicRemote().sendText("onOpen");
+			System.out.println("Deux players connectés");
 	}
 
 	@OnMessage
 	public String onReceiveMessage(String message, Session session, @PathParam("gameId") String game, @PathParam("playerId") String player) {
+		System.out.println("Event @OnMessage du serverEndPoint");
 		gamePlayerMap.get(game).forEach((k, v) -> {
 			if (!player.equals(k))
 				try {
-					gamePlayerMap.get(game).get(k).getBasicRemote().sendText("Your opponents send you a message");
+					gamePlayerMap.get(game).get(k).getBasicRemote().sendText(message);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		});
-		System.out.println("Event @OnMessage du serverEndPoint");
-		return message + " (from your server)";
+		return "accusé de reception du serveur";
 	}
 
 	@OnError
