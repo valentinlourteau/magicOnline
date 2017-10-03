@@ -16,7 +16,9 @@ import java.util.Set;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
 
+import combo.provider.ComboProvider;
 import combo.provider.TypeProvider;
 import entities.Card;
 import entities.Type;

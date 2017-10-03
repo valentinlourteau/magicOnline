@@ -11,6 +11,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import combo.enums.EditionEnum;
 import entities.Card;
 import mtg.objects.MtgCard;
 import service.CardService;
@@ -30,7 +31,7 @@ public class MagicCorporationLoader {
 
 	@PostConstruct
 	void init() {
-		List<MtgCard> mtgCards = loadCards();
+		List<MtgCard> mtgCards = loadCards(EditionEnum.RAVNICA);
 		long amountOfCardsInDatabase = cardService.countAll();
 		if (mtgCards.size() != (int) amountOfCardsInDatabase && mtgCards.size() > amountOfCardsInDatabase) {
 			cardService.removeAll();
@@ -47,22 +48,21 @@ public class MagicCorporationLoader {
 		return magicCorporationService.convertMtgCardsToCards(mtgCards);
 	}
 
-	private List<MtgCard> loadCards() {
+	private List<MtgCard> loadCards(EditionEnum edition) {
 		List<MtgCard> allCards = new ArrayList<>();
 		int page = 0;
-		boolean goOn = true;
 		int cardListSize = 0;
 		do {
 			page++;
 			cardListSize = allCards.size();
-			allCards.addAll(magicCorporationService.getAllCardsWithParameters(buildUrl("RAV", page)));
+			allCards.addAll(magicCorporationService.getAllCardsWithParameters(buildUrl(edition.getLabel(), page)));
 		} while (cardListSize != allCards.size() && allCards.size() - cardListSize == 100);
 		return allCards;
 	}
 
 	private String buildUrl(String edition, int page) {
 		StringBuilder builder = new StringBuilder();
-		builder.append("?set=RAV");
+		builder.append("?set=" + edition);
 		builder.append("&page=" + page);
 		return builder.toString();
 	}
