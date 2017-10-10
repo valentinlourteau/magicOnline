@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
 
 <h:head>
 	<f:metadata>
@@ -14,19 +15,27 @@
 
 <ui:composition template="/resources/templates/skin.xhtml">
 	<ui:define name="content">
+	
+		<script type="text/javascript">
+		function listen(message, channel, event) {
+			if (message == '1') {
+					console.log("je vais te signaler que la partie est prête");
+					gameReady();
+				}
+			}
+		</script>
 		<div class="body">
 			<h:panelGroup id="playMenu" rendered="#{empty playController.player}">
 				<p:commandButton value="Jouer !"
-					actionListener="#{playController.onGetPlayer()}" process="@this"
-					update="@form"></p:commandButton>
+					actionListener="#{playController.onStartToPlay()}"
+					process="@this" update="@form"></p:commandButton>
 			</h:panelGroup>
-			<h:panelGroup id="game" rendered="#{not empty playController.player}"><h:outputText value="Je suis en game" />
-			<p:commandButton value="Envoyer un message à votre adversaire" actionListener="#{playController.onSendMessageToOpponent()}" process="@this"></p:commandButton>
-			<h:outputLabel value="Message de votre adversaire : " />
-			<h:outputText rendered="#{not empty playController.player.messageFromOpponent}" value="#{playController.player.messageFromOpponent}" />
+			<h:panelGroup id="game" rendered="#{not empty playController.player}">
+				<h:outputText value="Je suis en game" />
 			</h:panelGroup>
 		</div>
-		<p:poll autoStart="true" update="@form" interval="3" process="@this"></p:poll>
+		<o:socket channel="play" user="#{playController.gamePlayerId}" onmessage="listen"/>
+		<p:remoteCommand name="gameReady" process="@this" actionListener="#{playController.onNotifyGameIsReady()}" />
 	</ui:define>
 </ui:composition>
 </html>

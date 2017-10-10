@@ -31,6 +31,7 @@
 				<configuration>
 					<warSourceDirectory>WebContent</warSourceDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<warName>magicOnline</warName>
 				</configuration>
 			</plugin>
 			<plugin>

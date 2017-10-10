@@ -1,38 +1,43 @@
 package controller;
 
-import java.io.IOException;
 import java.io.Serializable;
+import java.util.Random;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import game.Game;
 import game.Player;
-import service.GameService;
+import game.socket.GameProvider;
 
 @Named
 @ViewScoped
 public class PlayController implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
+	private Long gamePlayerId;
+	private Game game;
 
 	@Inject
-	GameService gameService;
+	GameProvider gameProvider;
 
+	/**
+	 * this is me !
+	 */
 	private Player player;
 
 	public void initView() {
+		gamePlayerId = new Random().nextLong();
 	}
 
-	public void onGetPlayer() {
-		player = gameService.createPlayer();
+	public void onStartToPlay() {
+		game = gameProvider.getPreparedGame(gamePlayerId);
 	}
-
-	public void onSendMessageToOpponent() {
-		try {
-			player.getSession().getBasicRemote().sendText("Envoie d'un message à l'adversaire");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	public void onNotifyGameIsReady() {
+		game = gameProvider.getPreparedGame(gamePlayerId);
 	}
 
 	public Player getPlayer() {
@@ -41,6 +46,18 @@ public class PlayController implements Serializable {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+	
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	public Long getGamePlayerId() {
+		return gamePlayerId;
 	}
 
 }
