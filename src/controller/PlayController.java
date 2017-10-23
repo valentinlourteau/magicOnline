@@ -7,6 +7,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.omnifaces.cdi.Push;
+import org.omnifaces.cdi.PushContext;
+
 import game.Game;
 import game.Player;
 import game.socket.GameProvider;
@@ -14,11 +17,14 @@ import game.socket.GameProvider;
 @Named
 @ViewScoped
 public class PlayController implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private Long gamePlayerId;
 	private Game game;
+	
+	@Inject @Push
+	private PushContext gameSocket;
 
 	@Inject
 	GameProvider gameProvider;
@@ -27,6 +33,16 @@ public class PlayController implements Serializable {
 	 * this is me !
 	 */
 	private Player player;
+	
+	private Player opponent;
+
+	public Player getOpponent() {
+		return opponent;
+	}
+
+	public void setOpponent(Player opponent) {
+		this.opponent = opponent;
+	}
 
 	public void initView() {
 		gamePlayerId = new Random().nextLong();
@@ -34,10 +50,15 @@ public class PlayController implements Serializable {
 
 	public void onStartToPlay() {
 		game = gameProvider.getPreparedGame(gamePlayerId);
+		if (game != null) {
+			opponent = game.getPlayers().stream().filter(player -> !player.getPlayerId().equals(gamePlayerId)).findFirst().get();
+			player = game.getPlayers().stream().filter(player -> player.getPlayerId().equals(gamePlayerId)).findFirst().get();
+		}
+			
 	}
-	
+
 	public void onNotifyGameIsReady() {
-		game = gameProvider.getPreparedGame(gamePlayerId);
+		onStartToPlay();
 	}
 
 	public Player getPlayer() {
@@ -47,7 +68,7 @@ public class PlayController implements Serializable {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+
 	public Game getGame() {
 		return game;
 	}

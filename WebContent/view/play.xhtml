@@ -3,8 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:o="http://omnifaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 
 <h:head>
 	<f:metadata>
@@ -15,7 +14,7 @@
 
 <ui:composition template="/resources/templates/skin.xhtml">
 	<ui:define name="content">
-	
+
 		<script type="text/javascript">
 		function listen(message, channel, event) {
 			if (message == '1') {
@@ -25,17 +24,49 @@
 			}
 		</script>
 		<div class="body">
-			<h:panelGroup id="playMenu" rendered="#{empty playController.player}">
+			<h:panelGroup id="playMenu" rendered="#{empty playController.game}">
 				<p:commandButton value="Jouer !"
-					actionListener="#{playController.onStartToPlay()}"
-					process="@this" update="@form"></p:commandButton>
+					actionListener="#{playController.onStartToPlay()}" process="@this"
+					update="form"></p:commandButton>
 			</h:panelGroup>
-			<h:panelGroup id="game" rendered="#{not empty playController.player}">
-				<h:outputText value="Je suis en game" />
+			<h:panelGroup id="game" rendered="#{not empty playController.game}">
+				<div class="row">
+					<div class="col l8">
+						<p:repeat var="card"
+							value="#{playController.opponent.cardsInHand}">
+							<h:graphicImage styleClass="card" value="#{card.imageUrl}" />
+						</p:repeat>
+					</div>
+					<div class="col l2">2</div>
+					<div class="col l2">3</div>
+				</div>
+
+				<div class="row">
+					<div class="col l8">
+						<p:repeat var="card"
+							value="#{playController.opponent.cardsInHand}">
+							<h:graphicImage styleClass="card" value="#{card.imageUrl}" />
+						</p:repeat>
+					</div>
+					<div class="col l2">2</div>
+					<div class="col l2">3</div>
+				</div>
+
 			</h:panelGroup>
 		</div>
-		<o:socket channel="play" user="#{playController.gamePlayerId}" onmessage="listen"/>
-		<p:remoteCommand name="gameReady" process="@this" actionListener="#{playController.onNotifyGameIsReady()}" />
+		<!-- Le socket utilisé par le play provider -->
+		<o:socket channel="play" user="#{playController.gamePlayerId}"
+			onmessage="listen" />
+
+		<!-- Le socket utilisé par le play controller -->
+		<o:socket channel="gameSocket" user="#{playController.gamePlayerId}"
+			onmessage="listen" />
+			
+		<!-- tous les remote commande ! -->
+			
+		<p:remoteCommand name="gameReady" process="@this"
+			actionListener="#{playController.onNotifyGameIsReady()}"
+			update="form" />
 	</ui:define>
 </ui:composition>
 </html>
